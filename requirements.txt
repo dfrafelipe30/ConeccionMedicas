@@ -1,0 +1,4 @@
+pygsheets==2.0.5
+pandas==1.2.4
+requests==2.26.0
+secure-smtplib==0.1.1
