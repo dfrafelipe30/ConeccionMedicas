@@ -62,16 +62,6 @@ def sendTheEmail(data):
     server.quit()
     
     print ("successfully sent email to %s:" % ("asistencia@juanestebansierra.com"))
-    
-    # sender = "connecion.medicas@gmail.com"
-    # receivers = ["asistencia@juanestebansierra.com"]
-    # try:
-    #     smtpObj = smtplib.SMTP('localhost')
-    #     smtpObj.sendmail(sender, receivers, message)         
-    #     print ("Successfully sent email")
-    # except SMTPException:
-    #     print ("Error: unable to send email")
-
 
 def getEstadoCivil(data):
     if data == "Soltero(a)":
@@ -134,9 +124,9 @@ for i in range(df.shape[0]):
     json_data = generateJSON(data)
     print("Enviando informacion")
     print(json_data)
-    #r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
+    r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
     #print(f"Status Code: {r.status_code}, Response: {r.json()}")
-    sendTheEmail(json_data)
+    sendTheEmail(r.json())
 
 while(True):
     if last_update != sh.updated:
@@ -149,7 +139,7 @@ while(True):
             json_data = generateJSON(data)
             print("Enviando informacion")
             r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
-            print(f"Status Code: {r.status_code}, Response: {r.json()}")
+            sendTheEmail(r.json())
         last_update = sh.updated
         last_rows = df_new.shape[0]
     else:
