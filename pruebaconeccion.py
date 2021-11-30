@@ -53,8 +53,11 @@ def sendTheEmail(data):
     message = """\
         Subject: Respuesta al insertar un nuevo paciente
 
-        La respuesta del servidor es : {}
-    """.format(data)
+        La respuesta del servidor es : \n
+        
+        estado:{} \n
+        mensaje: {}
+    """.format(data['estado'],data['mensaje'])
 
     # send the message via the server.
     server.sendmail("connecion.medicas@gmail.com", "asistencia@juanestebansierra.com", message )
@@ -125,7 +128,7 @@ for i in range(df.shape[0]):
     print("Enviando informacion")
     print(json_data)
     r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
-    #print(f"Status Code: {r.status_code}, Response: {r.json()}")
+    print(f"Status Code: {r.status_code}, Response: {r.json()}")
     sendTheEmail(r.json())
 
 while(True):
@@ -139,11 +142,10 @@ while(True):
             json_data = generateJSON(data)
             print("Enviando informacion")
             r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
+            print(f"Status Code: {r.status_code}, Response: {r.json()}")
             sendTheEmail(r.json())
         last_update = sh.updated
         last_rows = df_new.shape[0]
     else:
         print('no se actualizo')
-    time.sleep(15)
-
-    
+    time.sleep(60)
