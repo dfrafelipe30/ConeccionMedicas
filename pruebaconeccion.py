@@ -78,27 +78,39 @@ def getEstadoCivil(data):
     else:
         return "5"
 
+def getIdentidadGenero(data):
+    if data == "Masculino":
+        return "01"
+    elif data == "Femenino":
+        return "02"
+    elif data == "Transgénero":
+        return "03"
+    elif data == "Neutro":
+        return "04"
+    else:
+        return "05"
+
 
 def generateJSON(data):
     dicc = {}
-    dicc["tipo_documento"] = getTipoDocumento(data[7])
-    dicc["id_paciente" ] = str(data[8])
-
+    dicc["tipo_documento"] = getTipoDocumento(data[8])
+    dicc["id_paciente" ] = str(data[9])
+    dicc["tipo_identidad_genero"] = getIdentidadGenero(data[3])
     # Generando los nombres y apellidos
-    nombres = data[5].split(" ")
-    apellidos = data[6].split(" ")
+    nombres = data[6].split(" ")
+    apellidos = data[7].split(" ")
     dicc["primer_nombre"] = nombres[0]
     dicc["segundo_nombre"] = "" if len(nombres) == 1 else nombres[1]
     dicc["primer_apellido"] = apellidos[0]
     dicc["segundo_apellido"] = "" if len(apellidos) == 1 else apellidos[1]
     dicc["estado_civil"] = getEstadoCivil(data[2])
-    dicc["sexo"] = "M" if data[3] == "Masculino" else "F"
-    dicc["fecha_nacimiento"] = data[4]
-    dicc["celular"] = str(data[17])
-    dicc["email"] = data[18]
+    dicc["sexo"] = "M" if data[4] == "Masculino" else "F"
+    dicc["fecha_nacimiento"] = data[5]
+    dicc["celular"] = str(data[18])
+    dicc["email"] = data[19]
     dicc["entidad"] = "000000"
     dicc["tipo_aseguramiento"] = "4"
-    dicc["tipo_sangre"] = data[20]
+    dicc["tipo_sangre"] = data[21]
     dicc['api_key'] = 'himed'
     print("El diccionario es")
     print(dicc)
@@ -106,12 +118,12 @@ def generateJSON(data):
 
 
 #authorization
-gc = pygsheets.authorize(service_file='pruebaconeccion4.json')
+gc = pygsheets.authorize(service_file='pruebaconeccion.json')
 
 # Create empty dataframe
 df = pd.DataFrame()
 
-sh = gc.open('PruebaConeccion2022')
+sh = gc.open('Coneccion con himed')
 
 #select the first sheet 
 wks = sh.sheet1
