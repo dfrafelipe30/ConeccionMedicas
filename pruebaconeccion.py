@@ -90,6 +90,41 @@ def getIdentidadGenero(data):
     else:
         return "05"
 
+def getEscolaridad(data):
+    if data == "Preescolar":
+        return "2"
+    elif data == "Básica Primaria":
+        return "3"
+    elif data == "Básica Secundaria":
+        return "4"
+    elif data == "Media Académica o Clásica":
+        return "5"
+    elif data == "Media Técnica":
+        return "6"
+    elif data == "Normalista":
+        return "7"
+    elif data == "Técnico Profesional":
+        return "8"
+    elif data == "Tecnológica":
+        return "9"
+    elif data == "Profesional":
+        return "10"
+    elif data == "Especialización":
+        return "11"
+    elif data == "Maestría":
+        return "12"
+    elif data == "Doctorado":
+        return "13"
+    else:
+        return "1"
+
+def getZoneResidencial(data):
+    if data == "Urbano":
+        return "U"
+    else:
+        return "R"
+
+
 
 def generateJSON(data):
     dicc = {}
@@ -106,8 +141,12 @@ def generateJSON(data):
     dicc["estado_civil"] = getEstadoCivil(data[2])
     dicc["sexo"] = "M" if data[4] == "Masculino" else "F"
     dicc["fecha_nacimiento"] = data[5]
+    dicc["lugar_nacimiento"] = data[11]
+    dicc["escolaridad"] = getEscolaridad(data[10])
     dicc["celular"] = str(data[18])
     dicc["email"] = data[19]
+    dicc["dirección"] = data[15]
+    dicc["zona_residencial"] = getZoneResidencial(data[16])
     dicc["entidad"] = "000000"
     dicc["tipo_aseguramiento"] = "4"
     dicc["tipo_sangre"] = data[21]
