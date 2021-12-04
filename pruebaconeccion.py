@@ -145,11 +145,12 @@ def generateJSON(data):
     dicc["fecha_nacimiento"] = data[5]
     dicc["lugar_nacimiento"] = data[11]
     dicc["escolaridad"] = getEscolaridad(data[10])
+    dicc["pais_origen"] = getPais(data[11])
     dicc["pais"] = getPais(data[11])
-    dicc["telefono_uno"] = data[17]
+    dicc["telefono_uno"] = str(data[17])
     dicc["celular"] = str(data[18])
     dicc["email"] = data[19]
-    dicc["dirección"] = data[15]
+    dicc["direccion"] = data[15]
     dicc["zona_residencial"] = getZoneResidencial(data[16])
     dicc["entidad"] = "000000"
     dicc["tipo_aseguramiento"] = "4"
@@ -157,7 +158,7 @@ def generateJSON(data):
     dicc['api_key'] = 'himed'
     print("El diccionario es")
     print(dicc)
-    return json.dumps(dicc)
+    return json.dumps(dicc, ensure_ascii=True)
 
 
 #authorization
@@ -184,7 +185,7 @@ for i in range(df.shape[0]):
     print(json_data)
     r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
     print(f"Status Code: {r.status_code}, Response: {r.json()}")
-    sendTheEmail(r.json())
+    #sendTheEmail(r.json())
 
 while(True):
     if last_update != sh.updated:
@@ -198,7 +199,7 @@ while(True):
             print("Enviando informacion")
             r = requests.post(url = 'https://user.medsas.co/interoperabilidad/Api/Controllers/Demograficos/crearPaciente.php', data=json_data)
             print(f"Status Code: {r.status_code}, Response: {r.json()}")
-            sendTheEmail(r.json())
+            #sendTheEmail(r.json())
         last_update = sh.updated
         last_rows = df_new.shape[0]
     else:
